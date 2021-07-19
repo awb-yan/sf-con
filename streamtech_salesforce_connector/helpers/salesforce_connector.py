@@ -6,8 +6,8 @@ import logging
 _logger = logging.getLogger(__name__)
 
 class SalesForceConnect(object):
-    def connect_salesforce(self):
-        IrConfigParameter = self.env['ir.config_parameter'].sudo()
+    def connect_salesforce(self, self1):
+        IrConfigParameter = self1.env['ir.config_parameter'].sudo()
         username = IrConfigParameter.get_param('odoo_salesforce.sf_username')
         password = IrConfigParameter.get_param('odoo_salesforce.sf_password')
         security = IrConfigParameter.get_param('odoo_salesforce.sf_security_token')
