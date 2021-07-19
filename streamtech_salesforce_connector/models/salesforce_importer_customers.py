@@ -1,4 +1,4 @@
-from ..helper.salesforce_connector import SalesForceConnect
+from ..helpers.salesforce_connector import SalesForceConnect
 import logging
 import datetime
 
@@ -15,7 +15,7 @@ class SalesForceImporterCustomers(models.Model):
         _logger.info('----------------- STREAMTECH import_customers')
 
         connector = SalesForceConnect()
-        self.sales_force = connector.connect_to_salesforce()
+        self.sales_force = connector.connect_salesforce()
 
         # Field/s removed due to errors found with usage with PAVI SalesForce:
         query = f"""

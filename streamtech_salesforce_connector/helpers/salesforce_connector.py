@@ -5,8 +5,8 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-class SalesForceConnect(models.Model):
-    def connect_to_salesforce(self):
+class SalesForceConnect(object):
+    def connect_salesforce(self):
         try:
             IrConfigParameter = self.env['ir.config_parameter'].sudo()
             username = IrConfigParameter.get_param('odoo_salesforce.sf_username')
