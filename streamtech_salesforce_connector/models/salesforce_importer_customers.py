@@ -15,7 +15,7 @@ class SalesForceImporterCustomers(models.Model):
         _logger.info('----------------- STREAMTECH import_customers')
 
         connector = SalesForceConnect()
-        self.salesforce = connector.connect_salesforce()
+        self.salesforce = connector.connect_salesforce(self)
 
         # Field/s removed due to errors found with usage with PAVI SalesForce:
         query = f"""
