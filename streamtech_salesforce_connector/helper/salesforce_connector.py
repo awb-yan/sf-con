@@ -14,12 +14,13 @@ class SalesForceConnect(models.Model):
             security = IrConfigParameter.get_param('odoo_salesforce.sf_security_token')
             domain = IrConfigParameter.get_param('odoo_salesforce.sf_domain')
 
-            _logger.info ("Connect to salesforce")
-            _logger.info ("username: [%s]" % username)
-            _logger.info ("password: [%s]" % password)
-            _logger.info ("security: [%s]" % security)
-            _logger.info ("domain: [%s]" % domain)
+            _logger.info("Connect to salesforce")
+            _logger.info("username: [%s]" % username)
+            _logger.info("password: [%s]" % password)
+            _logger.info("security: [%s]" % security)
+            _logger.info("domain: [%s]" % domain)
             sales_force = Salesforce(username=username, password=password, security_token=security, domain=domain)
+            _logger.info("SF: [%s]" % sales_force)
 
             return sales_force
         except Exception as e:
