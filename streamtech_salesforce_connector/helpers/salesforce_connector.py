@@ -1,17 +1,10 @@
 from odoo import models, fields, api, exceptions, _
 from simple_salesforce import Salesforce
 from openerp.exceptions import Warning
-import logging
-
-_logger = logging.getLogger(__name__)
 
 class SalesForceConnect(object):
-    def connect_salesforce(self, self1):
-        IrConfigParameter = self1.env['ir.config_parameter'].sudo()
-        username = IrConfigParameter.get_param('odoo_salesforce.sf_username')
-        password = IrConfigParameter.get_param('odoo_salesforce.sf_password')
-        security = IrConfigParameter.get_param('odoo_salesforce.sf_security_token')
-        domain = IrConfigParameter.get_param('odoo_salesforce.sf_domain')
+    def connect_salesforce(self, model):
+        IrConfigParameter = model.env['ir.config_parameter'].sudo()
 
         _logger.info("Connect to salesforce")
         _logger.info("username: [%s]" % username)
@@ -19,7 +12,6 @@ class SalesForceConnect(object):
         _logger.info("security: [%s]" % security)
         _logger.info("domain: [%s]" % domain)
         sales_force = Salesforce(username=username, password=password, security_token=security, domain=domain)
-        _logger.info("SF: [%s]" % sales_force)
 
         return sales_force
 
