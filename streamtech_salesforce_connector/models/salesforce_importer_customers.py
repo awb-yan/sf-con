@@ -15,7 +15,7 @@ class SalesForceImporterCustomers(models.Model):
         _logger.info('----------------- STREAMTECH import_customers')
 
         connector = SalesForceConnect()
-        self.sales_force = connector.connect_salesforce()
+        self.salesforce = connector.connect_salesforce()
 
         # Field/s removed due to errors found with usage with PAVI SalesForce:
         query = f"""
@@ -92,7 +92,7 @@ class SalesForceImporterCustomers(models.Model):
             query = query + from_date_query + to_date_query
 
         query += " LIMIT 10000 "
-        contacts = self.sales_force.bulk.Account.query(query)
+        contacts = self.salesforce.bulk.Account.query(query)
         return self.creating_contacts(contacts)
 
     def _create_customer(self, partner, lead_partner, zone=None):
