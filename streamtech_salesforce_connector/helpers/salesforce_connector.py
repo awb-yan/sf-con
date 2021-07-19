@@ -2,8 +2,6 @@ from odoo import models, fields, api, exceptions, _
 from simple_salesforce import Salesforce
 from openerp.exceptions import Warning
 
-_logger = logging.getLogger(__name__)
-
 class SalesForceConnect(object):
     def connect_salesforce(self, model):
         IrConfigParameter = model.env['ir.config_parameter'].sudo()
