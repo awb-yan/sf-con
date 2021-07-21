@@ -1,7 +1,6 @@
 from ..helpers.salesforce_connector import SalesForceConnect
 import logging
 import datetime
-import os
 
 from odoo import models
 from openerp.osv import osv
@@ -15,15 +14,8 @@ class SalesForceImporterCustomers(models.Model):
     def import_customers(self, Auto):
         _logger.info('----------------- STREAMTECH import_customers')
 
-        if os.environ.get('ODOO_STAGE') == 'production':
-        #  or os.environ.get('ODOO_STAGE') == 'staging'
-            _logger.info("prod")
-            # if not self.sales_force:
-            #     self.connect_to_salesforce()
-        else:
-            _logger.info("lower")
-            # connector = SalesForceConnect()
-            # self.sales_force = connector.connect_salesforce(model=self)
+        connector = SalesForceConnect()
+        self.sales_force = connector.connect_salesforce(model=self)
 
         # Field/s removed due to errors found with usage with PAVI SalesForce:
         query = f"""
