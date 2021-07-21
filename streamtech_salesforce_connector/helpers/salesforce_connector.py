@@ -11,15 +11,19 @@ class SalesForceConnect(object):
         security = IrConfigParameter.get_param('odoo_salesforce.sf_security_token')
 
         env = os.environ.get('ODOO_STAGE')
-        if env == 'production' or env == 'staging':
-            sales_force = Salesforce(username=username, password=password, 
-                security_token=security)
+        # YAN: comment out in the meantime
+        # if env == 'production' or env == 'staging':
+        #     sales_force = Salesforce(username=username, password=password, 
+        #         security_token=security)
 
-        else:
-            domain = IrConfigParameter.get_param('odoo_salesforce.sf_domain')
-            sales_force = Salesforce(username=username, password=password, 
-                security_token=security, domain=domain)
+        # else:
+        #     domain = IrConfigParameter.get_param('odoo_salesforce.sf_domain')
+        #     sales_force = Salesforce(username=username, password=password, 
+        #         security_token=security, domain=domain)
 
+        domain = IrConfigParameter.get_param('odoo_salesforce.sf_domain')
+        sales_force = Salesforce(username=username, password=password, 
+            security_token=security, domain=domain)
         return sales_force
 
 
