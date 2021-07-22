@@ -140,8 +140,8 @@ class CRMLead(models.Model):
         _logger.debug(f'Oppys to complete: {len(oppys)}')
         for oppy in oppys:
             _logger.debug(f'Processing Oppy: {oppy}')
-            try:
+            # try:
                 oppy.stage_id = completed.id
                 self.env.cr.commit()
-            except Exception as e:
-                _logger.info(f'Cannot complete oppy: {oppy} Err: {str(e)}')
+            # except Exception as e:
+            #     _logger.info(f'Cannot complete oppy: {oppy} Err: {str(e)}')
