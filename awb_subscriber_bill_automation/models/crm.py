@@ -36,9 +36,9 @@ class CRMLead(models.Model):
 
     def _onchange_bill_stage_id(self):
         is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
-        if self.stage_id.id == is_completed.id:
-            if not self.zone:
-                raise UserError(_('Please specify zone.'))
+        # if self.stage_id.id == is_completed.id:
+        #     if not self.zone:
+        #         raise UserError(_('Please specify zone.'))
 
         if len(self.order_ids):
             return

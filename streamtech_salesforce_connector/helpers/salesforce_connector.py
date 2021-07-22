@@ -11,7 +11,7 @@ class SalesForceConnect(object):
         security = IrConfigParameter.get_param('odoo_salesforce.sf_security_token')
 
         env = os.environ.get('ODOO_STAGE')
-        # YAN: comment out in the meantime
+
         # if env == 'production' or env == 'staging':
         #     sales_force = Salesforce(username=username, password=password, 
         #         security_token=security)

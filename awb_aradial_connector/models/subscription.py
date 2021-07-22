@@ -1,3 +1,4 @@
+from ..helpers.password_generator import GeneratePassword
 from odoo import api, fields, models, exceptions, _
 from openerp.exceptions import Warning
 
@@ -37,9 +38,12 @@ class Subscription(models.Model):
             first_name = record.partner_id.first_name
             last_name = record.partner_id.last_name
 
+            pw = GeneratePassword()
+            password = pw.generate_password()
+
             self.data = {
                 'UserID': record.code,
-                'Password': 'password',         # TODO: call password generator
+                'Password': password,
                 'Offer': products,
 	      	    'ServiceType': 'Internet',
 	      	    'FirstName': first_name,
@@ -59,6 +63,9 @@ class Subscription(models.Model):
                 self.record.write({
                     'stage_id': self.env['sale.subscription.stage'].search([("name", "=", "In Progress")]).id,
                     'in_progress': True
+                    # YAN : add this part if we'll save the password
+                    # ,
+                    # 'aradial_password':password
                 })
             else:
                 raise Warning("User Creation in Aradial: FAILED")
