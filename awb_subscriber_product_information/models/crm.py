@@ -72,11 +72,11 @@ class CRMLead(models.Model):
     category = fields.Selection(related='zone.category', string="Category")
 
     def write(self, vals):
-        is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
-        _logger.debug(f'stage {is_completed} current {self.stage_id} {vals}')
-        if 'stage_id' in vals and vals["stage_id"] == is_completed.id:
-            if not self.zone:
-                raise UserError(_('Please specify zone.'))
+        # is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
+        # _logger.debug(f'stage {is_completed} current {self.stage_id} {vals}')
+        # if 'stage_id' in vals and vals["stage_id"] == is_completed.id:
+        #     if not self.zone:
+        #         raise UserError(_('Please specify zone.'))
 
         write_result = super(CRMLead, self).write(vals)
 

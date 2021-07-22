@@ -35,7 +35,7 @@ class CRMLead(models.Model):
         return res
 
     def _onchange_bill_stage_id(self):
-        is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
+        # is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
         # if self.stage_id.id == is_completed.id:
         #     if not self.zone:
         #         raise UserError(_('Please specify zone.'))
@@ -140,8 +140,8 @@ class CRMLead(models.Model):
         _logger.debug(f'Oppys to complete: {len(oppys)}')
         for oppy in oppys:
             _logger.debug(f'Processing Oppy: {oppy}')
-            # try:
-            oppy.stage_id = completed.id
-            self.env.cr.commit()
-            # except Exception as e:
-            #     _logger.info(f'Cannot complete oppy: {oppy} Err: {str(e)}')
+            try:
+                oppy.stage_id = completed.id
+                self.env.cr.commit()
+            except Exception as e:
+                _logger.info(f'Cannot complete oppy: {oppy} Err: {str(e)}')
