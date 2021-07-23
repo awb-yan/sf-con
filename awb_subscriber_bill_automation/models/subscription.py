@@ -40,7 +40,7 @@ class SaleSubscription(models.Model):
         # Origin code
         # vals['atm_ref_sequence'] = self.env['ir.sequence'].next_by_code('subscription.atm.reference.seq.code')
 
-        company_id = vals.get('company_id')
+        company_id = 1 # YANYAN
         company = self.env['res.company'].browse([company_id])
 
         code_seq = company.company_code.filtered(
