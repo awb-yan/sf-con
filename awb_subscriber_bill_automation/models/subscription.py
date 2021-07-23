@@ -50,11 +50,11 @@ class SaleSubscription(models.Model):
         # if not code_seq:
         #     raise UserError("No Active company code, Please check your company code settings")
 
-        code_seq = {'10001', '10002', '10003'}
-        vals['atm_ref_sequence'] = code_seq[0]._get_seq_count()
+        # code_seq = {'10001', '10002', '10003'}
+        vals['atm_ref_sequence'] = '10015678'
 
-        res = super(SaleSubscription, self).create(vals)
-        return res
+        # res = super(SaleSubscription, self).create(vals)
+        # return res
 
     @api.depends("atm_ref_sequence")
     def _compute_atm_reference_number(self):
