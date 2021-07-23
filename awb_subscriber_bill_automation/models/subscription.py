@@ -50,6 +50,7 @@ class SaleSubscription(models.Model):
         # if not code_seq:
         #     raise UserError("No Active company code, Please check your company code settings")
 
+        code_seq = {'10001', '10002', '10003'}
         vals['atm_ref_sequence'] = code_seq[0]._get_seq_count()
 
         res = super(SaleSubscription, self).create(vals)
