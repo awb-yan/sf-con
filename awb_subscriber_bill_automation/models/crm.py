@@ -66,6 +66,7 @@ class CRMLead(models.Model):
                     }
                     _logger.info("============= line.product_id.product_variant_id.id [%s] ============= " % line.product_id.product_variant_id.id)
                     _logger.info("============= line.product_id.product_variant_id [%s] ============= " % line.product_id.product_variant_id)
+                    _logger.info("============= line.product_id.id [%s] ============= " % line.product_id.id)
                     _logger.info("============= line.product_id [%s] ============= " % line.product_id)
                     product_lines.append((0, 0, data))
 
