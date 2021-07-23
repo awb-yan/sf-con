@@ -84,13 +84,14 @@ class CRMLead(models.Model):
                     'order_line': product_lines
                 }
 
+                _logger.info("============= date_order [%s] ============= " % data['date_order'])
                 lines.append((0, 0, data))
                 _logger.debug(f'Get Lines {lines}')
 
                 sale_order_id = self.sudo().env['sale.order'].create(data)
                 sale_order_id.action_confirm()
                 _logger.debug(f'Sale Order {sale_order_id}')
-                _logger.info("============= 'Sale Order {%s} ============= " % sale_order_id)
+                _logger.info("============= Sale Order {%s} ============= " % sale_order_id)
 
 
             elif self.subscription_status == 'disconnection' or self.subscription_status == 'pre-termination':
