@@ -50,7 +50,7 @@ class CRMLead(models.Model):
         
         _logger.info("============= walang order IDs ============= ")
         if self.stage_id.is_auto_quotation:
-        _logger.info("============= stage_id.is_auto_quotation ============= ")
+            _logger.info("============= stage_id.is_auto_quotation ============= ")
             if self.subscription_status == 'new':
                 _logger.info("============= subscription_status new ============= ")
                 product_lines = []
