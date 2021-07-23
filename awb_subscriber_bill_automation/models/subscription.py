@@ -43,12 +43,12 @@ class SaleSubscription(models.Model):
         company_id = 1 # YANYAN
         company = self.env['res.company'].browse([company_id])
 
-        code_seq = company.company_code.filtered(
-            lambda code: code.is_active == True
-        )
+        # code_seq = company.company_code.filtered(
+        #     lambda code: code.is_active == True
+        # )
 
-        if not code_seq:
-            raise UserError("No Active company code, Please check your company code settings")
+        # if not code_seq:
+        #     raise UserError("No Active company code, Please check your company code settings")
 
         vals['atm_ref_sequence'] = code_seq[0]._get_seq_count()
 
