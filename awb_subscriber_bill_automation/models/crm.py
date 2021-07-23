@@ -28,6 +28,7 @@ class CRMLead(models.Model):
         return result
 
     def write(self, vals):
+        _logger.info("write()")
         is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
         res = super(CRMLead, self).write(vals)
         if 'stage_id' in vals and vals["stage_id"] == is_completed.id:
@@ -35,10 +36,13 @@ class CRMLead(models.Model):
         return res
 
     def _onchange_bill_stage_id(self):
+        _logger.info("_onchange_bill_stage_id")
+
         # is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
         # if self.stage_id.id == is_completed.id:
         #     if not self.zone:
         #         raise UserError(_('Please specify zone.'))
+
 
         if len(self.order_ids):
             return
