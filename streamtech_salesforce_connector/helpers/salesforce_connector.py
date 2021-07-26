@@ -17,13 +17,10 @@ class SalesForceConnect(object):
         #         security_token=security)
 
         # else:
-        #     domain = IrConfigParameter.get_param('odoo_salesforce.sf_domain')
-        #     sales_force = Salesforce(username=username, password=password, 
-        #         security_token=security, domain=domain)
-
         domain = IrConfigParameter.get_param('odoo_salesforce.sf_domain')
         sales_force = Salesforce(username=username, password=password, 
             security_token=security, domain=domain)
+
         return sales_force
 
 
