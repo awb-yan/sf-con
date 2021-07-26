@@ -52,8 +52,9 @@ class SaleSubscription(models.Model):
 
         vals['atm_ref_sequence'] = code_seq[0]._get_seq_count()
 
-        # vals['stage_id'] = 1
-        # vals['in_progress'] = False
+        # YANYAN: TODO ; Find in the code the part where subs become Draft
+        vals['stage_id'] = 1
+        vals['in_progress'] = False
 
         res = super(SaleSubscription, self).create(vals)
         return res
