@@ -9,6 +9,13 @@ _logger = logging.getLogger(__name__)
 class Subscription(models.Model):
     _inherit = 'sale.subscription'
 
+    @api.model
+    def create(self, vals):
+        vals['stage_id'] = self.env['sale.subscription.stage'].search([("name", "=", "Draft")]).id
+        vals['in_progress'] = False
+
+        res = super(Subscription, self).create(vals)
+        return res
     
     def create_aradial_user(
         self,
