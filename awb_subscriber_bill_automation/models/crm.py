@@ -28,7 +28,6 @@ class CRMLead(models.Model):
         return result
 
     def write(self, vals):
-        _logger.info("============= write() ============= ")
         is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
         res = super(CRMLead, self).write(vals)
         if 'stage_id' in vals and vals["stage_id"] == is_completed.id:
@@ -36,38 +35,27 @@ class CRMLead(models.Model):
         return res
 
     def _onchange_bill_stage_id(self):
-        _logger.info("============= _onchange_bill_stage_id ============= ")
-
-        # is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
-        # if self.stage_id.id == is_completed.id:
-        #     if not self.zone:
-        #         raise UserError(_('Please specify zone.'))
-
+        is_completed = self.env.ref('awb_subscriber_product_information.stage_completed')
+        if self.stage_id.id == is_completed.id:
+            if not self.zone:
+                raise UserError(_('Please specify zone.'))
 
         if len(self.order_ids):
-            _logger.info("============= meron nang order IDs ============= ")
             return
-        
-        _logger.info("============= walang order IDs ============= ")
+
         if self.stage_id.is_auto_quotation:
-            _logger.info("============= stage_id.is_auto_quotation ============= ")
             if self.subscription_status == 'new':
-                _logger.info("============= subscription_status new ============= ")
                 product_lines = []
                 for line in self.product_lines:
                     # By Default all product lines does not expire
                     data = {
                         'product_id': line.product_id.product_variant_id.id,
-                        'name': line.product_id.name.upper(),
+                        'name': line.product_id.name,
                         'product_uom_qty': line.quantity,
                         'price_unit': line.unit_price,
                         # 'date_start': self.contract_start_date,
                         # 'date_end': self.contract_end_date
                     }
-                    _logger.info("============= line.product_id.product_variant_id.id [%s] ============= " % line.product_id.product_variant_id.id)
-                    _logger.info("============= line.product_id.product_variant_id [%s] ============= " % line.product_id.product_variant_id)
-                    _logger.info("============= line.product_id.id [%s] ============= " % line.product_id.id)
-                    _logger.info("============= line.product_id [%s] ============= " % line.product_id)
                     product_lines.append((0, 0, data))
 
                 lines = []
@@ -88,19 +76,14 @@ class CRMLead(models.Model):
                     'order_line': product_lines
                 }
 
-                _logger.info("============= date_order [%s] ============= " % data['date_order'])
                 lines.append((0, 0, data))
                 _logger.debug(f'Get Lines {lines}')
 
                 sale_order_id = self.sudo().env['sale.order'].create(data)
                 sale_order_id.action_confirm()
                 _logger.debug(f'Sale Order {sale_order_id}')
-                _logger.info("============= Sale Order {%s} ============= " % sale_order_id)
-
 
             elif self.subscription_status == 'disconnection' or self.subscription_status == 'pre-termination':
-                _logger.info("============= subscription_status discon/preterm ============= ")
-
                 subscriber_id = self.sudo().env['sale.subscription'].search([('partner_id', '=', self.partner_id.id), (
                     'account_identification', '=', self.account_identification), ('stage_id', '!=', self.env.ref(
                         'sale_subscription.sale_subscription_stage_closed').id)])
@@ -116,7 +99,6 @@ class CRMLead(models.Model):
                 _logger.debug(f'Disconnect {subscriber_id}')
 
             elif self.subscription_status == 'reconnection':
-                _logger.info("============= subscription_status recon ============= ")
                 subscriber_id = self.sudo().env['sale.subscription'].search([('partner_id', '=', self.partner_id.id), (
                     'account_identification', '=', self.account_identification), ('stage_id', '=', self.env.ref(
                         'sale_subscription.sale_subscription_stage_closed').id)], order='date_start desc', limit=1)
@@ -127,7 +109,6 @@ class CRMLead(models.Model):
                 _logger.debug(f'Reconnect {subscriber_id}')
 
             elif self.subscription_status in ('upgrade', 'convert', 'downgrade'):
-                _logger.info("============= subscription_status convert, UG,DG ============= ")
                 domain = [('partner_id', '=', self.partner_id.id),
                           ('account_identification', '=', self.account_identification),
                           ('stage_id', '!=', self.env.ref('sale_subscription.sale_subscription_stage_closed').id)]
@@ -162,7 +143,5 @@ class CRMLead(models.Model):
             try:
                 oppy.stage_id = completed.id
                 self.env.cr.commit()
-                
-                
             except Exception as e:
                 _logger.info(f'Cannot complete oppy: {oppy} Err: {str(e)}')

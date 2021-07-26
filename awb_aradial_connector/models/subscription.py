@@ -9,6 +9,10 @@ _logger = logging.getLogger(__name__)
 class Subscription(models.Model):
     _inherit = 'sale.subscription'
 
+    state = fields.Char("State", compute='_get_stage_name')
+    product_names = fields.Char("Products", compute='_get_subs_product_names')
+    product_desc = fields.Char("Products Description", compute='_get_subs_product_names')
+
     @api.model
     def create(self, vals):
         vals['stage_id'] = self.env['sale.subscription.stage'].search([("name", "=", "Draft")]).id
@@ -16,7 +20,26 @@ class Subscription(models.Model):
 
         res = super(Subscription, self).create(vals)
         return res
-    
+
+    @api.depends('stage_id')
+    def _get_stage_name(self):
+        for rec in self:
+            rec.state = rec.stage_id.name
+
+    @api.depends('recurring_invoice_line_ids')
+    def _get_subs_product_names(self):
+        products = []
+        desc = []
+        for rec in self:
+            for line_item in rec.recurring_invoice_line_ids:
+                if line_item.product_id.type == 'service':
+                    products.append(line_item.display_name)
+                    desc.append(line_item.name)  # descrition
+                    desc.append(str(line_item.quantity))
+                    desc.append(line_item.date_start.strftime("%b %d, %Y"))
+            rec.product_names = ', '.join(products)
+            rec.product_desc = ', '.join(desc)
+
     def create_aradial_user(
         self,
         record=None
@@ -51,8 +74,8 @@ class Subscription(models.Model):
             self.data = {
                 'UserID': record.code,
                 'Password': password,
-	      	    'FirstName': first_name,
- 	      	    'LastName': last_name,
+                'FirstName': first_name,
+                'LastName': last_name,
                 'Address1': record.partner_id.street,
                 'Address2': record.partner_id.street2,
                 'City': record.partner_id.state_id.city,
@@ -60,12 +83,11 @@ class Subscription(models.Model):
                 'Country': record.partner_id.country_id.name,
                 'Zip': record.partner_id.zip,
                 'Offer': products,
-	      	    'ServiceType': 'Internet',
+                'ServiceType': 'Internet',
                 'Start Date': record.date_start,
-	            'CustomInfo1': 'VDH',
+                'CustomInfo1': 'VDH',
                 'CustomInfo2': 'Postpaid',
                 'CustomInfo3': record.partner_id.customer_number,
-
             }
 
             _logger.info("User Details:")
@@ -99,11 +121,16 @@ class Subscription(models.Model):
             _logger.info("atm_ref is required")
             return False
         if stage != 'Draft':
-            _logger.info("Stage should be in Draft: [%s]" % stage)
+            _logger.info("Stage should be in Draft")
             return False
 
         _logger.info("Valid Subscription")
         return True
 
-
-
+    def _send_welcome_message(self, recordset, template_name, state):
+        self.env['awb.sms.send'].send_now(
+            recordset=recordset,
+            template_name=template_name,
+            state=state
+        )
+        _logger.info("----- SMS Sending Done -----")
