@@ -58,7 +58,7 @@ class CRMLead(models.Model):
                     # By Default all product lines does not expire
                     data = {
                         'product_id': line.product_id.product_variant_id.id,
-                        'name': line.product_id.name,
+                        'name': line.product_id.name.upper(),
                         'product_uom_qty': line.quantity,
                         'price_unit': line.unit_price,
                         # 'date_start': self.contract_start_date,

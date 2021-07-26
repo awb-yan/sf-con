@@ -42,8 +42,12 @@
                                         </div>
                                         <div class="content-group">
                                             <div class="row mt16">
-                                                <label for="external_report_layout_id" string="Username" class="col-lg-4 o_light_label"/>
+                                                <label for="external_report_layout_id" string="Is Sanbox?" class="col-lg-4 o_light_label"/>
                                                 <field name="sf_username"/>
+                                            </div>
+                                            <div class="row mt8">
+                                                <label for="external_report_layout_id" string="Username" class="col-lg-4 o_setting_box"/>
+                                                <field name="sf_is_sandox"/>
                                             </div>
                                             <div class="row mt8">
                                                 <label for="external_report_layout_id" string="Password" class="col-lg-4 o_light_label"/>

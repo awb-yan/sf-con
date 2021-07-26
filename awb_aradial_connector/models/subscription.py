@@ -44,11 +44,21 @@ class Subscription(models.Model):
             self.data = {
                 'UserID': record.code,
                 'Password': password,
-                'Offer': products,
-	      	    'ServiceType': 'Internet',
 	      	    'FirstName': first_name,
  	      	    'LastName': last_name,
-	            'CustomInfo1': 'VDH'
+                'Address1': record.partner_id.street,
+                'Address2': record.partner_id.street2,
+                'City': record.partner_id.state_id.city,
+                'State': record.partner_id.state_id.name,
+                'Country': record.partner_id.country_id.name,
+                'Zip': record.partner_id.zip,
+                'Offer': products,
+	      	    'ServiceType': 'Internet',
+                'Start Date': record.date_start,
+	            'CustomInfo1': 'VDH',
+                'CustomInfo2': 'Postpaid',
+                'CustomInfo3': record.partner_id.customer_number,
+
             }
 
             _logger.info("User Details:")
@@ -63,9 +73,6 @@ class Subscription(models.Model):
                 self.record.write({
                     'stage_id': self.env['sale.subscription.stage'].search([("name", "=", "In Progress")]).id,
                     'in_progress': True
-                    # YAN : add this part if we'll save the password
-                    # ,
-                    # 'aradial_password':password
                 })
             else:
                 raise Warning("User Creation in Aradial: FAILED")
@@ -78,10 +85,9 @@ class Subscription(models.Model):
     ):
         _logger.info("Validating Subcription")
 
-# YAN: commenting out the checking for location - for testing
-#         if not location:
-#             _logger.info("Location is required")
-#             return False
+        if not location:
+            _logger.info("Location is required")
+            return False
         if not atm_ref:
             _logger.info("atm_ref is required")
             return False
