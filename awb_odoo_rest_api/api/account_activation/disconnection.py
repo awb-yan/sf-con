@@ -13,7 +13,7 @@ SUBSCRIPTION = "sale.subscription"
 
 class OdooAPI(OdooAPI):
 
-    @http.route('/api/activate-subs', type='http', auth='none', methods=["GET"], csrf=False)
+    @http.route('/api/activate-subs', type='json', auth='none', methods=["PUT"], csrf=False)
     # data = {"params": {"user_ids": [<id1>, <id2>, <id3>], "subs_status": "expired/exceed_usage"}}
     def _activate_users(self, user_ids=None):
         if not user_ids:
@@ -35,7 +35,7 @@ class OdooAPI(OdooAPI):
 
             return json.dumps(res)
 
-        records = request.env[SUBSCRIPTION].browse("code", "=ilike", user_ids)
+        # records = request.env[SUBSCRIPTION].browse("code", "=ilike", user_ids)
 
         # print(records, flush=True)
         # for record in records:
@@ -61,7 +61,7 @@ class OdooAPI(OdooAPI):
                 "links": {
                   "about": "",
                 },
-                "data": records,
+                "data": user_ids,
                 # "data_count": len(data),
             }]
         }
