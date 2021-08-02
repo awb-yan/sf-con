@@ -17,6 +17,7 @@ AWB_API = [
     "get_users",
     "disconnect_users",
     "get_users_status",
+    "activate_users"
 ]
 
 class OdooAPI(OdooAPI):
