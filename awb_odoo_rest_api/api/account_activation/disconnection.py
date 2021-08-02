@@ -15,7 +15,8 @@ class OdooAPI(OdooAPI):
 
     @http.route('/api/activate-subs', type='json', auth='public', methods=["PUT"])
     # data = {"params": {"user_ids": [<id1>, <id2>, <id3>], "subs_status": "expired/exceed_usage"}}
-    def _activate_users(self, user_ids=None):
+    def _activate_users(self, **kwargs):
+        user_ids = http.request.params
         if not user_ids:
             res = {
               "errors": [
