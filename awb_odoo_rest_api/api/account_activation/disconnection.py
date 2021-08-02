@@ -11,6 +11,7 @@ Serializer = importlib.import_module(
 
 SUBSCRIPTION = "sale.subscription"
 
+
 class OdooAPI(OdooAPI):
 
     @http.route('/awb/activate_users/', type='json', auth='user', methods=["PUT"], csrf=False)
