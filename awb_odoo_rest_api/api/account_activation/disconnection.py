@@ -11,20 +11,19 @@ Serializer = importlib.import_module(
 
 SUBSCRIPTION = "sale.subscription"
 
-class SubscriptionRoutes(http.Controller):
+class OdooAPI(OdooAPI):
 
-    @http.route('/api/activate-subs', type='json', auth='public', methods=["PUT"])
+    @http.route('/awb/activate_users/', type='json', auth='user', methods=["PUT"], csrf=False)
     # data = {"params": {"user_ids": [<id1>, <id2>, <id3>], "subs_status": "expired/exceed_usage"}}
-    def _activate_users(self, **kwargs):
-        user_ids = http.request.params
-        if not user_ids:
+    def _disconnect_users(self, user_ids=None, subs_status=None):
+        if not user_ids or not subs_status:
             res = {
               "errors": [
                 {
                   "status": 400,
                   "message": "Bad Request",
                   "code": 352,
-                  "description": "required parameters: <user_ids>",
+                  "description": "required parameters: <user_ids>, <subs_status: expired/ exceed_usage>",
                   "links": {
                     "about": "http://www.domain.com/rest/errorcode/352"
                   },
@@ -36,14 +35,14 @@ class SubscriptionRoutes(http.Controller):
 
             return json.dumps(res)
 
-        records = request.env[SUBSCRIPTION].browse("code", "=", user_ids)
+        records = request.env[SUBSCRIPTION].browse(user_ids)
 
-        # print(records, flush=True)
-        # for record in records:
-        #     record.write(
-        #         {"subscription_status": "disconnection", "subscription_status_subtype": "disconnection-temporary"}
-        #     )
-        # records.env.cr.commit()
+        print(records, flush=True)
+        for record in records:
+            record.write(
+                {"subscription_status": "disconnection", "subscription_status_subtype": "disconnection-temporary"}
+            )
+        records.env.cr.commit()
 
         # method for disconnecting users
         # return must be the processed records
@@ -51,16 +50,19 @@ class SubscriptionRoutes(http.Controller):
         # records must be set to 2 only
         # records = records.set_users_discon()
 
-        # serializer = Serializer(records, "{id, name, partner_id}", many=True)
-        # data = serializer.data
+        serializer = Serializer(records, "{id, name, partner_id}", many=True)
+        data = serializer.data
         res = {
             "success": [{
                 "status": 200,
                 "message": "User disconnection successful",
                 "code": 200,
                 "description": "",
-                "data": records,
-                # "data_count": len(data),
+                "links": {
+                  "about": "",
+                },
+                "data": data,
+                "data_count": len(data),
             }]
         }
 
