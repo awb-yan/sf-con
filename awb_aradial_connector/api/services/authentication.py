@@ -16,8 +16,7 @@ Serializer = importlib.import_module(
 AWB_API = [
     "get_users",
     "disconnect_users",
-    "get_users_status",
-    "activate_users"
+    "get_users_status"
 ]
 
 class OdooAPI(OdooAPI):
