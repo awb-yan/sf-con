@@ -11,12 +11,11 @@ Serializer = importlib.import_module(
 
 SUBSCRIPTION = "sale.subscription"
 
-
 class OdooAPI(OdooAPI):
 
-    @http.route('/awb/activate_users/', type='json', auth='user', methods=["PUT"], csrf=False)
+    @http.route('/awb/disconnect_users/', type='json', auth='user', methods=["PUT"], csrf=False)
     # data = {"params": {"user_ids": [<id1>, <id2>, <id3>], "subs_status": "expired/exceed_usage"}}
-    def _activate_users(self, user_ids=None, subs_status=None):
+    def _disconnect_users(self, user_ids=None, subs_status=None):
         if not user_ids or not subs_status:
             res = {
               "errors": [
@@ -38,12 +37,12 @@ class OdooAPI(OdooAPI):
 
         records = request.env[SUBSCRIPTION].browse(user_ids)
 
-        # print(records, flush=True)
-        # for record in records:
-        #     record.write(
-        #         {"subscription_status": "disconnection", "subscription_status_subtype": "disconnection-temporary"}
-        #     )
-        # records.env.cr.commit()
+        print(records, flush=True)
+        for record in records:
+            record.write(
+                {"subscription_status": "disconnection", "subscription_status_subtype": "disconnection-temporary"}
+            )
+        records.env.cr.commit()
 
         # method for disconnecting users
         # return must be the processed records

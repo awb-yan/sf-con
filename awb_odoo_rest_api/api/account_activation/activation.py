@@ -16,7 +16,7 @@ class OdooAPI(OdooAPI):
 
     @http.route('/awb/activate_users/', type='json', auth='user', methods=["PUT"], csrf=False)
     # data = {"params": {"user_ids": [<id1>, <id2>, <id3>], "subs_status": "expired/exceed_usage"}}
-    def _activate_users(self, user_ids=None, subs_status=None):
+    def _disconnect_users(self, user_ids=None, subs_status=None):
         if not user_ids or not subs_status:
             res = {
               "errors": [
