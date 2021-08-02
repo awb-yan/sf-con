@@ -5,21 +5,19 @@
 #
 ##############################################################################
 {
-    'name': "Streamtech Salesforce Connector",
+    'name': "AWB Odoo Rest API",
     'summary': """
-        StreamTech Specific Salesforce Connector
+        AWB Odoo Rest API
         """,
     'description': """
-        Includes the customization for Streamtech's Salesforce
+        AWB Odoo Rest API
     """,
     'author': "Achieve Without Borders, Inc",
     'website': "http://www.achievewithoutborders.com",
     'category': 'Sales',
-    'version': '13.0.1.1.0',
-    'depends': ['salesforce_connector', 'awb_subscriber_bill_automation', 'awb_subscriber_product_information'],
+    'version': '13.0.1.11.0',
+    'depends': ['base'],
     'data': [
-        'views/crm_view.xml',
-        'views/partner_view.xml',
     ],
     'installable': True,
     'application': False,
