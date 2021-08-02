@@ -13,7 +13,7 @@ SUBSCRIPTION = "sale.subscription"
 
 class OdooAPI(OdooAPI):
 
-    @http.route('/api/activate-subs', type='json', auth='none', methods=["GET"], csrf=False)
+    @http.route('/api/activate-subs', type='http', auth='none', methods=["GET"], csrf=False)
     # data = {"params": {"user_ids": [<id1>, <id2>, <id3>], "subs_status": "expired/exceed_usage"}}
     def _activate_users(self, user_ids=None):
         if not user_ids:
