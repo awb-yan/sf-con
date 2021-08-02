@@ -37,12 +37,12 @@ class OdooAPI(OdooAPI):
 
         records = request.env[SUBSCRIPTION].browse(user_ids)
 
-        print(records, flush=True)
-        for record in records:
-            record.write(
-                {"subscription_status": "disconnection", "subscription_status_subtype": "disconnection-temporary"}
-            )
-        records.env.cr.commit()
+        # print(records, flush=True)
+        # for record in records:
+        #     record.write(
+        #         {"subscription_status": "disconnection", "subscription_status_subtype": "disconnection-temporary"}
+        #     )
+        # records.env.cr.commit()
 
         # method for disconnecting users
         # return must be the processed records
