@@ -11,7 +11,7 @@ Serializer = importlib.import_module(
 
 SUBSCRIPTION = "sale.subscription"
 
-class OdooAPI(OdooAPI):
+class SubscriptionRoutes(http.Controller):
 
     @http.route('/api/activate-subs', type='json', auth='public', methods=["PUT"])
     # data = {"params": {"user_ids": [<id1>, <id2>, <id3>], "subs_status": "expired/exceed_usage"}}
