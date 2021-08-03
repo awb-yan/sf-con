@@ -35,7 +35,7 @@ class OdooAPI(OdooAPI):
 
             return json.dumps(res)
 
-        records = request.env[SUBSCRIPTION].search([("code", "in", user_ids)])
+        records = request.env[SUBSCRIPTION].search([('code', 'in', user_ids)])
 
         # print(records, flush=True)
         # for record in records:
@@ -61,7 +61,7 @@ class OdooAPI(OdooAPI):
                 "links": {
                   "about": "",
                 },
-                "data": records,
+                "data": records.id,
                 "data_count": len(records),
             }]
         }
