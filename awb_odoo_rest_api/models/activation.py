@@ -13,7 +13,7 @@ Serializer = importlib.import_module(
 SUBSCRIPTION = "sale.subscription"
 
 class OdooAPI(models.Model):
-    _inherit = SUBSCRIPTION
+    _inherit = 'sale.subscription'
 
     is_active = fields.Datetime(string="Is Subscription Active", default=False)
 
