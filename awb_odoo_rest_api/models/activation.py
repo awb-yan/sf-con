@@ -1,7 +1,6 @@
 from datetime import datetime
 from odoo import http, fields, models
 from odoo.http import request
-from .authentication import OdooAPI 
 
 import importlib
 import json
@@ -9,8 +8,6 @@ import json
 Serializer = importlib.import_module(
     "odoo.addons.odoo-rest-api"
 ).controllers.serializers.Serializer
-
-SUBSCRIPTION = "sale.subscription"
 
 class OdooAPI(models.Model):
     _inherit = 'sale.subscription'
@@ -39,7 +36,7 @@ class OdooAPI(models.Model):
 
             return json.dumps(res)
 
-        records = request.env[SUBSCRIPTION].search([('code', 'in', user_ids)])
+        records = request.env['sale.subscription'].search([('code', 'in', user_ids)])
 
         print(records, flush=True)
         for record in records:

@@ -16,7 +16,7 @@
     'website': "http://www.achievewithoutborders.com",
     'category': 'Sales',
     'version': '13.0.1.11.0',
-    'depends': ['base'],
+    'depends': ['base', 'sale_subscription'],
     'data': [
     ],
     'installable': True,
