@@ -5,9 +5,6 @@ import importlib
 import json
 
 
-OdooAPI = importlib.import_module(
-    "odoo.addons.odoo-rest-api"
-).controllers.controllers.OdooAPI
 
 Serializer = importlib.import_module(
     "odoo.addons.odoo-rest-api"
