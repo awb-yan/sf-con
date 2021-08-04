@@ -1,3 +1,4 @@
+from datetime import datetime
 from odoo import http
 from odoo.http import request
 from .authentication import OdooAPI 
@@ -12,6 +13,9 @@ Serializer = importlib.import_module(
 SUBSCRIPTION = "sale.subscription"
 
 class OdooAPI(OdooAPI):
+    _inherit = SUBSCRIPTION
+
+    activation_date = fields.Datetime(string="Activation Date")
 
     @http.route('/awb/active_users/', type='json', auth='user', methods=["PUT"], csrf=False)
     # data = {"params": {"user_ids": [<id1>, <id2>, <id3>], "subs_status": "expired/exceed_usage"}}
@@ -37,12 +41,14 @@ class OdooAPI(OdooAPI):
 
         records = request.env[SUBSCRIPTION].search([('code', 'in', user_ids)])
 
-        # print(records, flush=True)
-        # for record in records:
-        #     record.write(
-        #         {"subscription_status": "disconnection", "subscription_status_subtype": "disconnection-temporary"}
-        #     )
-        # records.env.cr.commit()
+        print(records, flush=True)
+        for record in records:
+            record.write(
+                {
+                  "activation_date": fields.Datetime.now()
+                }
+            )
+        records.env.cr.commit()
 
         # method for disconnecting users
         # return must be the processed records
