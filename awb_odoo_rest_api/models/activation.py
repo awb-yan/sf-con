@@ -1,7 +1,7 @@
 from datetime import datetime
 from odoo import http, fields, models
 
-class AWBOdooAPI(models.Model):
+class AWBOdooRestAPI(models.Model):
   _inherit = 'sale.subscription'
 
-  is_active = fields.Boolean(string="Is Subscription Active")
+  is_active = fields.Boolean(string="Is Subscription Active", default=False)
