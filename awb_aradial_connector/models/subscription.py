@@ -134,3 +134,11 @@ class Subscription(models.Model):
             state=state
         )
         _logger.info("----- SMS Sending Done -----")
+
+    def _send_activation_message(self, recordset, template_name, state):
+        self.env['awb.sms.send'].send_now(
+            recordset=recordset,
+            template_name=template_name,
+            state=state
+        )
+        _logger.info("----- SMS Sending Done -----")
