@@ -13,7 +13,7 @@ Serializer = importlib.import_module(
 class OdooAPI(OdooAPI):
     _inherit = 'sale.subscription'
 
-    is_active = fields.Datetime(string="Is Subscription Active", default=False)
+    is_active = fields.Boolean(string="Is Subscription Active", default=False)
 
     @http.route('/awb/active_users/', type='json', auth='user', methods=["PUT"], csrf=False)
     # data = {"params": {"user_ids": [<id1>, <id2>, <id3>], "subs_status": "expired/exceed_usage"}}
