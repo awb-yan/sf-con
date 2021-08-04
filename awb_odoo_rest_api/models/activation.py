@@ -1,6 +1,7 @@
 from datetime import datetime
 from odoo import http, fields, models
 from odoo.http import request
+from .authentication import OdooAPI
 
 import importlib
 import json
@@ -9,7 +10,7 @@ Serializer = importlib.import_module(
     "odoo.addons.odoo-rest-api"
 ).controllers.serializers.Serializer
 
-class OdooAPI(models.Model):
+class OdooAPI(OdooAPI):
     _inherit = 'sale.subscription'
 
     is_active = fields.Datetime(string="Is Subscription Active", default=False)
