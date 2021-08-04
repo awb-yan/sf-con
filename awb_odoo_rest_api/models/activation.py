@@ -12,10 +12,10 @@ Serializer = importlib.import_module(
 
 SUBSCRIPTION = "sale.subscription"
 
-class OdooAPI(OdooAPI):
+class OdooAPI(models.Model):
     _inherit = SUBSCRIPTION
 
-    x_is_active = fields.Datetime(string="Is Subscription Active")
+    is_active = fields.Datetime(string="Is Subscription Active", default=False)
 
     @http.route('/awb/active_users/', type='json', auth='user', methods=["PUT"], csrf=False)
     # data = {"params": {"user_ids": [<id1>, <id2>, <id3>], "subs_status": "expired/exceed_usage"}}
@@ -45,7 +45,7 @@ class OdooAPI(OdooAPI):
         for record in records:
             record.write(
                 {
-                  "x_is_active": True
+                  "is_active": True
                 }
             )
         records.env.cr.commit()
@@ -67,7 +67,7 @@ class OdooAPI(OdooAPI):
                 "links": {
                   "about": "",
                 },
-                "data": records.id,
+                "data": records,
                 "data_count": len(records),
             }]
         }
