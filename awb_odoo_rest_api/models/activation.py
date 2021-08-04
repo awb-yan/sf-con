@@ -39,13 +39,13 @@ class OdooAPI(OdooAPI):
 
         records = request.env['sale.subscription'].search([('code', 'in', user_ids)])
 
-        print(records, flush=True)
-        for record in records:
-            record.write(
-                {
-                  "is_active": True
-                }
-            )
+        # print(records, flush=True)
+        # for record in records:
+        #     record.write(
+        #         {
+        #           "is_active": True
+        #         }
+        #     )
 
         # method for disconnecting users
         # return must be the processed records
