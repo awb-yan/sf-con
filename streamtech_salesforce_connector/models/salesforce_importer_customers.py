@@ -1,5 +1,6 @@
 import logging
 import datetime
+import os
 
 from odoo import models
 from openerp.osv import osv
