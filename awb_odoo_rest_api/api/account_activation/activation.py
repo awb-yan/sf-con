@@ -55,7 +55,7 @@ class OdooAPI(OdooAPI):
         res = {
             "success": [{
                 "status": 200,
-                "message": "User disconnection successful",
+                "message": "User found!",
                 "code": 200,
                 "description": "",
                 "links": {
