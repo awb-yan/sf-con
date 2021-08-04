@@ -45,7 +45,7 @@ class OdooAPI(OdooAPI):
         for record in records:
             record.write(
                 {
-                  "activation_date": True
+                  "x_is_active": True
                 }
             )
         records.env.cr.commit()
