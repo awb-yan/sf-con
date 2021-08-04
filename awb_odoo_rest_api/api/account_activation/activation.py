@@ -15,7 +15,7 @@ SUBSCRIPTION = "sale.subscription"
 class OdooAPI(OdooAPI):
     _inherit = SUBSCRIPTION
 
-    activation_date = fields.Datetime(string="Activation Date")
+    x_is_active = fields.Datetime(string="Is Subscription Active")
 
     @http.route('/awb/active_users/', type='json', auth='user', methods=["PUT"], csrf=False)
     # data = {"params": {"user_ids": [<id1>, <id2>, <id3>], "subs_status": "expired/exceed_usage"}}
@@ -45,7 +45,7 @@ class OdooAPI(OdooAPI):
         for record in records:
             record.write(
                 {
-                  "activation_date": fields.Datetime.now()
+                  "activation_date": True
                 }
             )
         records.env.cr.commit()
