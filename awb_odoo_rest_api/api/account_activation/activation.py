@@ -1,5 +1,5 @@
 from datetime import datetime
-from odoo import http
+from odoo import http, fields
 from odoo.http import request
 from .authentication import OdooAPI 
 
