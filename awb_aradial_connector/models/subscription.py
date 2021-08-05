@@ -42,6 +42,8 @@ class Subscription(models.Model):
                     _logger.info("qty [%s]" % str(line_item.quantity))
                     desc.append(line_item.date_start.strftime("%b %d, %Y"))
                     _logger.info("start date [%s]" % line_item.date_start.strftime("%b %d, %Y"))
+            _logger.info("products [%s]" % products)
+            _logger.info("desc [%s]" % desc)
             rec.product_names = ', '.join(products)
             rec.product_desc = ', '.join(desc)
             _logger.info("rec.product_names [%s]" % rec.product_names)
