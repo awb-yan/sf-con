@@ -33,12 +33,19 @@ class Subscription(models.Model):
         for rec in self:
             for line_item in rec.recurring_invoice_line_ids:
                 if line_item.product_id.type == 'service':
+                    _logger.info("Service")
                     products.append(line_item.display_name)
+                    _logger.info("display name [%s]" % line_item.display_name)
                     desc.append(line_item.name)  # descrition
+                    _logger.info("name [%s]" % line_item.name)
                     desc.append(str(line_item.quantity))
+                    _logger.info("qty [%s]" % str(line_item.quantity))
                     desc.append(line_item.date_start.strftime("%b %d, %Y"))
+                    _logger.info("start date [%s]" % line_item.date_start.strftime("%b %d, %Y"))
             rec.product_names = ', '.join(products)
             rec.product_desc = ', '.join(desc)
+            _logger.info("rec.product_names [%s]" % rec.product_names)
+            _logger.info("rec.product_desc [%s]" % rec.product_desc)
 
     def create_aradial_user(
         self,
@@ -133,7 +140,7 @@ class Subscription(models.Model):
             template_name=template_name,
             state=state
         )
-        _logger.info("----- SMS Sending Done -----")
+        _logger.info("----- Welcome SMS Sending Done -----")
 
     def _send_activation_message(self, recordset, template_name, state):
         self.env['awb.sms.send'].send_now(
@@ -141,4 +148,4 @@ class Subscription(models.Model):
             template_name=template_name,
             state=state
         )
-        _logger.info("----- SMS Sending Done -----")
+        _logger.info("----- Activation SMS Sending Done -----")
