@@ -33,22 +33,13 @@ class Subscription(models.Model):
         for rec in self:
             for line_item in rec.recurring_invoice_line_ids:
                 if line_item.product_id.type == 'service':
-                    _logger.info("Service")
                     products.append(line_item.display_name)
-                    _logger.info("display name [%s]" % line_item.display_name)
                     desc.append(line_item.name)  # descrition
-                    _logger.info("name [%s]" % line_item.name)
                     desc.append(str(line_item.quantity))
-                    _logger.info("qty [%s]" % str(line_item.quantity))
                     if line_item.date_start:
                         desc.append(line_item.date_start.strftime("%b %d, %Y"))
-                        _logger.info("start date [%s]" % line_item.date_start.strftime("%b %d, %Y"))
-            _logger.info("products [%s]" % products)
-            _logger.info("desc [%s]" % desc)
             rec.product_names = ', '.join(products)
             rec.product_desc = ', '.join(desc)
-            _logger.info("rec.product_names [%s]" % rec.product_names)
-            _logger.info("rec.product_desc [%s]" % rec.product_desc)
 
     def create_aradial_user(
         self,
